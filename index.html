@@ -1,0 +1,346 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>碧月 DESSERT · 販售據點</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif+TC:wght@300;400&family=DM+Serif+Display&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #F7F3EE;
+    --ink: #1C1A18;
+    --ink-light: #6B6560;
+    --ink-faint: #B8B2AB;
+    --green: #1D9E75;
+    --green-bg: #E8F5EF;
+    --purple: #7F77DD;
+    --purple-bg: #EEEDFE;
+    --coral: #D85A30;
+    --coral-bg: #FAECE7;
+    --border: rgba(28,26,24,0.1);
+  }
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  html { background: var(--cream); }
+  body {
+    font-family: 'Noto Serif TC', serif;
+    background: var(--cream);
+    color: var(--ink);
+    min-height: 100vh;
+    padding: 0 0 80px;
+  }
+
+  header {
+    padding: 56px 24px 40px;
+    text-align: center;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 40px;
+  }
+  .header-label {
+    font-family: 'DM Serif Display', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 16px;
+  }
+  h1 {
+    font-family: 'DM Serif Display', serif;
+    font-size: clamp(32px, 6vw, 52px);
+    font-weight: 400;
+    line-height: 1.1;
+    color: var(--ink);
+    margin-bottom: 12px;
+  }
+  .subtitle {
+    font-size: 14px;
+    color: var(--ink-light);
+    font-weight: 300;
+    letter-spacing: 0.05em;
+  }
+
+  .container {
+    max-width: 680px;
+    margin: 0 auto;
+    padding: 0 20px;
+  }
+
+  .map-wrap {
+    border-radius: 16px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    margin-bottom: 32px;
+    background: #e5e0d8;
+  }
+  .map-wrap iframe {
+    width: 100%;
+    height: 340px;
+    display: block;
+    border: none;
+  }
+
+  .filter-bar {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+    margin-bottom: 24px;
+  }
+  .filter-btn {
+    font-family: 'Noto Serif TC', serif;
+    font-size: 12px;
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink-light);
+    cursor: pointer;
+    transition: all 0.2s;
+    letter-spacing: 0.02em;
+  }
+  .filter-btn:hover { border-color: var(--ink-faint); color: var(--ink); }
+  .filter-btn.on-all { background: var(--ink); border-color: var(--ink); color: var(--cream); }
+  .filter-btn.on-normal { background: var(--green); border-color: var(--green); color: #fff; }
+  .filter-btn.on-collab { background: var(--purple); border-color: var(--purple); color: #fff; }
+  .filter-btn.on-studio { background: var(--coral); border-color: var(--coral); color: #fff; }
+
+  .shop-list { display: flex; flex-direction: column; gap: 12px; }
+
+  .shop-card {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 16px 18px;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    transition: transform 0.15s, box-shadow 0.15s;
+  }
+  .shop-card:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 20px rgba(28,26,24,0.07);
+  }
+
+  .pin-icon {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+  }
+  .pin-icon svg { width: 20px; height: 20px; }
+  .pin-normal { background: var(--green-bg); }
+  .pin-collab { background: var(--purple-bg); }
+  .pin-studio { background: var(--coral-bg); }
+
+  .shop-info { flex: 1; min-width: 0; }
+  .shop-name {
+    font-size: 14px;
+    font-weight: 400;
+    color: var(--ink);
+    margin-bottom: 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  .shop-meta { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  .badge {
+    font-size: 11px;
+    padding: 3px 9px;
+    border-radius: 10px;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+  }
+  .badge-normal { background: var(--green-bg); color: #085041; }
+  .badge-collab { background: var(--purple-bg); color: #3C3489; }
+  .badge-studio { background: var(--coral-bg); color: #712B13; }
+  .area { font-size: 12px; color: var(--ink-faint); }
+
+  .nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 14px;
+    border-radius: 10px;
+    border: 1px solid var(--border);
+    background: transparent;
+    color: var(--ink);
+    font-family: 'Noto Serif TC', serif;
+    font-size: 13px;
+    cursor: pointer;
+    text-decoration: none;
+    flex-shrink: 0;
+    transition: background 0.15s, border-color 0.15s;
+    white-space: nowrap;
+  }
+  .nav-btn:hover { background: var(--cream); border-color: var(--ink-faint); }
+  .nav-btn svg { width: 14px; height: 14px; }
+
+  .hidden { display: none !important; }
+
+  footer {
+    text-align: center;
+    margin-top: 56px;
+    padding-top: 32px;
+    border-top: 1px solid var(--border);
+    font-size: 12px;
+    color: var(--ink-faint);
+    letter-spacing: 0.05em;
+  }
+
+  @media (max-width: 480px) {
+    .shop-name { font-size: 13px; }
+    .nav-btn span { display: none; }
+    .nav-btn { padding: 8px 10px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <p class="header-label">BiYue Dessert</p>
+  <h1>販售據點</h1>
+  <p class="subtitle">台中 · 新竹 · 共 6 個據點</p>
+</header>
+
+<div class="container">
+
+  <div class="map-wrap">
+    <iframe src="https://www.google.com/maps/d/embed?mid=1eRrshP0eY9gfyrPaBPqdPPVM5us_OSM&ehbc=2E312F" allowfullscreen loading="lazy"></iframe>
+  </div>
+
+  <div class="filter-bar">
+    <button class="filter-btn on-all" onclick="filter('all',this,'on-all')">全部 6</button>
+    <button class="filter-btn" onclick="filter('normal',this,'on-normal')">一般販售點 4</button>
+    <button class="filter-btn" onclick="filter('collab',this,'on-collab')">聯名店 1</button>
+    <button class="filter-btn" onclick="filter('studio',this,'on-studio')">工作室取貨 1</button>
+  </div>
+
+  <div class="shop-list" id="list">
+
+    <div class="shop-card" data-type="normal">
+      <div class="pin-icon pin-normal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#1D9E75"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">G'DAY 台中南區｜早午餐 · COFFEE · PIZZA</div>
+        <div class="shop-meta">
+          <span class="badge badge-normal">一般販售點</span>
+          <span class="area">台中南區</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/PqYZPcz2BqkEzcxh6" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+    <div class="shop-card" data-type="normal">
+      <div class="pin-icon pin-normal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#1D9E75"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">ORIGBLACK 北屯店</div>
+        <div class="shop-meta">
+          <span class="badge badge-normal">一般販售點</span>
+          <span class="area">台中北屯</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/W54fGL4xshLsNU7L8" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+    <div class="shop-card" data-type="normal">
+      <div class="pin-icon pin-normal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#1D9E75"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">ONIBUS COFFEE 台中</div>
+        <div class="shop-meta">
+          <span class="badge badge-normal">一般販售點</span>
+          <span class="area">台中西區</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/dF6C9vBgiAoTFJzY7" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+    <div class="shop-card" data-type="normal">
+      <div class="pin-icon pin-normal">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#1D9E75"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">ㄇ人子艸青 Caocing coffee&tea</div>
+        <div class="shop-meta">
+          <span class="badge badge-normal">一般販售點</span>
+          <span class="area">新竹</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/dxG8xusHm81Fs6xQ6" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+    <div class="shop-card" data-type="collab">
+      <div class="pin-icon pin-collab">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#7F77DD"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">Phase Coffee Roasters x 碧月Dessert 勤美術館店</div>
+        <div class="shop-meta">
+          <span class="badge badge-collab">聯名店</span>
+          <span class="area">台中西區</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/8q3R3wvfiK2fEiAG8" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+    <div class="shop-card" data-type="studio">
+      <div class="pin-icon pin-studio">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" fill="#D85A30"/><circle cx="12" cy="9" r="2.5" fill="#fff"/></svg>
+      </div>
+      <div class="shop-info">
+        <div class="shop-name">碧月 DESSERT｜台中甜點</div>
+        <div class="shop-meta">
+          <span class="badge badge-studio">工作室取貨點</span>
+          <span class="area">台中北屯</span>
+        </div>
+      </div>
+      <a class="nav-btn" href="https://maps.app.goo.gl/CpsfYgazSXAQsifz6" target="_blank">
+        <svg viewBox="0 0 24 24" fill="none"><path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7z" stroke="currentColor" stroke-width="1.5"/><circle cx="12" cy="9" r="2" stroke="currentColor" stroke-width="1.5"/></svg>
+        <span>導航</span>
+      </a>
+    </div>
+
+  </div>
+
+  <footer>© 碧月 BiYue Dessert</footer>
+
+</div>
+
+<script>
+function filter(type, btn, activeClass) {
+  document.querySelectorAll('.filter-btn').forEach(b => {
+    b.className = 'filter-btn';
+  });
+  btn.classList.add(activeClass);
+  document.querySelectorAll('.shop-card').forEach(card => {
+    if (type === 'all' || card.dataset.type === type) {
+      card.classList.remove('hidden');
+    } else {
+      card.classList.add('hidden');
+    }
+  });
+}
+</script>
+</body>
+</html>
